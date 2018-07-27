@@ -1,17 +1,3 @@
-function getPromiseFirst() {
-    return new Promise(function (resolve, reject) {
-        resolve({
-            name: 'yarynka',
-        });
-    })
-}
-function getPromiseSecond() {
-    return new Promise(function (resolve, reject) {
-        resolve({
-            surname: "mazuryk"
-        });
-    })
-}
 function getResultAfterTime() {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -21,15 +7,20 @@ function getResultAfterTime() {
         }, 10000);
     });
 }
-async function showAll() {
-    try {
-        const firstPromise = await getPromiseFirst();
-        const secondPromise = await getPromiseSecond();
-        const timePromise = await getResultAfterTime();
-        console.log(firstPromise, secondPromise, timePromise);
-    } catch (error) {
-    }
+function getPromiseSecond() {
+    return new Promise(function (resolve, reject) {
+        resolve( getResultAfterTime().then(data => {
+            return data;
+        }) );
+        });
 }
+async function showAll() {
+            try {   
+                const secondPromise = await getPromiseSecond(); 
+                console.log(secondPromise);
+            } catch (error) {
+            }
+        }
 showAll();
 
 
